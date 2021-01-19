@@ -17,9 +17,9 @@ config:
   # This is the path to the root of the Spack install tree.
   # You can use $spack here to refer to the root of the spack instance.
   install_tree:
-    root: $spack/opt/spack
+    root: /qfs/projects/exasgd/spack-install/
     projections:
-      all: "${ARCHITECTURE}/${COMPILERNAME}-${COMPILERVER}/${PACKAGE}-${VERSION}-${HASH}"
+      all: "${ARCHITECTURE}/${COMPILERNAME}-${COMPILERVER}/${PACKAGE}/${VERSION}-${HASH:5}"
     # install_tree can include an optional padded length (int or boolean)
     # default is False (do not pad)
     # if padded_length is True, Spack will pad as close to the system max path
@@ -66,65 +66,17 @@ config:
   # `spack clean -a`, so it is important that the specified directory uniquely
   # identifies Spack staging to avoid accidentally wiping out non-Spack work.
   build_stage:
-    - $tempdir/$user/spack-stage
-    - ~/.spack/stage
-  # - $spack/var/spack/stage
+    - /qfs/projects/exasgd/src/spack-build/
 
-  # Directory in which to run tests and store test results.
-  # Tests will be stored in directories named by date/time and package
-  # name/hash.
-  test_stage: ~/.spack/test
-
-  # Cache directory for already downloaded source tarballs and archived
-  # repositories. This can be purged with `spack clean --downloads`.
-  source_cache: $spack/var/spack/cache
-
-
-  # Cache directory for miscellaneous files, like the package index.
-  # This can be purged with `spack clean --misc-cache`
+  test_stage: /qfs/projects/exasgd/src/spack-test/
+  source_cache: /qfs/projects/exasgd/src/spack-cache/
   misc_cache: ~/.spack/cache
-
-
-  # Timeout in seconds used for downloading sources etc. This only applies
-  # to the connection phase and can be increased for slow connections or
-  # servers. 0 means no timeout.
   connect_timeout: 10
-
-
-  # If this is false, tools like curl that use SSL will not verify
-  # certifiates. (e.g., curl will use use the -k option)
   verify_ssl: true
-
-
-  # Suppress gpg warnings from binary package verification
-  # Only suppresses warnings, gpg failure will still fail the install
-  # Potential rationale to set True: users have already explicitly trusted the
-  # gpg key they are using, and may not want to see repeated warnings that it
-  # is self-signed or something of the sort.
   suppress_gpg_warnings: false
-
-
-  # If set to true, Spack will attempt to build any compiler on the spec
-  # that is not already available. If set to False, Spack will only use
-  # compilers already configured in compilers.yaml
   install_missing_compilers: False
-
-
-  # If set to true, Spack will always check checksums after downloading
-  # archives. If false, Spack skips the checksum step.
   checksum: true
-
-
-  # If set to true, `spack install` and friends will NOT clean
-  # potentially harmful variables from the build environment. Use wisely.
   dirty: false
-
-
-  # The language the build environment will use. This will produce English
-  # compiler messages by default, so the log parser can highlight errors.
-  # If set to C, it will use English (see man locale).
-  # If set to the empty string (''), it will use the language from the
-  # user's environment.
   build_language: C
 
 

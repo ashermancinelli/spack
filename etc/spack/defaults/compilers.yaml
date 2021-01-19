@@ -1,0 +1,94 @@
+compilers:
+- compiler:
+    paths:
+      cc:
+      cxx:
+      f77: /usr/bin/xlf_r
+      fc: /usr/bin/xlf2008_r
+    operating_system: rhel7
+    target: ppc64le
+    modules: []
+    environment: {}
+    extra_rpaths: []
+    flags:
+      fflags: -qzerosize
+    spec: xl_r@16.1
+- compiler:
+    paths:
+      cc: /people/manc568/projects/clang+llvm-9.0.1-powerpc64le-linux-rhel-7.4/bin/clang
+      cxx: /people/manc568/projects/clang+llvm-9.0.1-powerpc64le-linux-rhel-7.4/bin/clang++
+      f77:
+      fc:
+    operating_system: rhel7
+    target: ppc64le
+    modules: []
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    spec: clang@9.0.1
+- compiler:
+    paths:
+      cc: /usr/bin/gcc
+      cxx: /usr/bin/g++
+      f77: /usr/bin/gfortran
+      fc: /usr/bin/gfortran
+    operating_system: rhel7
+    target: ppc64le
+    modules: []
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    spec: gcc@4.8.5
+- compiler:
+    paths:
+      cc:
+      cxx:
+      f77: /usr/bin/xlf
+      fc: /usr/bin/xlf2008
+    operating_system: rhel7
+    target: ppc64le
+    modules: []
+    environment: {}
+    extra_rpaths: []
+    flags:
+      fflags: -qzerosize
+    spec: xl@16.1
+- compiler:
+    paths:
+      cc: /share/apps/gcc/10.1/bin/gcc
+      cxx: /share/apps/gcc/10.1/bin/g++
+      f77: /share/apps/gcc/10.1/bin/gfortran
+      fc: /share/apps/gcc/10.1/bin/gfortran
+    operating_system: rhel7
+    target: ppc64le
+    modules: []
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    spec: gcc@10.1.0
+- compiler:
+    paths:
+      cc: /share/apps/gcc/8.3.0/bin/gcc
+      cxx: /share/apps/gcc/8.3.0/bin/g++
+      f77: /share/apps/gcc/8.3.0/bin/gfortran
+      fc: /share/apps/gcc/8.3.0/bin/gfortran
+    operating_system: rhel7
+    target: ppc64le
+    modules: []
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    spec: gcc@8.3.0
+- compiler:
+    paths:
+      cc: /share/apps/gcc/7.4.0/bin/gcc
+      cxx: /share/apps/gcc/7.4.0/bin/g++
+      f77: /share/apps/gcc/7.4.0/bin/gfortran
+      fc: /share/apps/gcc/7.4.0/bin/gfortran
+    operating_system: rhel7
+    target: ppc64le
+    modules: []
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    spec: gcc@7.4.0

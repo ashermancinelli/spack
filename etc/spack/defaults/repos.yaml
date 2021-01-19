@@ -12,3 +12,4 @@
 # -------------------------------------------------------------------------
 repos:
   - $spack/var/spack/repos/builtin
+  - /qfs/projects/exasgd/src/ExaSGD_Spack/

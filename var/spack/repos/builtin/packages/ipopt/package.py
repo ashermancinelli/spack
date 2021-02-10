@@ -11,18 +11,26 @@ class Ipopt(AutotoolsPackage):
        software package for large-scale nonlinear optimization."""
     homepage = "https://projects.coin-or.org/Ipopt"
     url      = "http://www.coin-or.org/download/source/Ipopt/Ipopt-3.12.4.tgz"
+    git      = "https://github.com/coin-or/Ipopt.git"
 
-    version('3.12.10', sha256='e1a3ad09e41edbfe41948555ece0bdc78757a5ca764b6be5a9a127af2e202d2e')
-    version('3.12.9', sha256='8ff3fe1a8560896fc5559839a87c2530cac4ed231b0806e487bfd3cf2d294ab8')
-    version('3.12.8', sha256='62c6de314220851b8f4d6898b9ae8cf0a8f1e96b68429be1161f8550bb7ddb03')
-    version('3.12.7', sha256='9c8b02149fa4f0cdf63e838ae68f86aa41a577d7f05932139eede9179f314861')
-    version('3.12.6', sha256='6aaa6bd862d54eba6fb966950fa6928ca01d66cf4cb842b2f41a7ebfa61eee2b')
-    version('3.12.5', sha256='53e7af6eefcb6de1f8e936c9c887c7bcb5a9fa4fcf7673a227f16de131147325')
-    version('3.12.4', sha256='292afd952c25ec9fe6225041683dcbd3cb76e15a128764671927dbaf881c2e89')
-    version('3.12.3', sha256='754fb9473bc683b59a53d2057ff852d0a8d56198bcdba2e2529ce299243fdaa5')
-    version('3.12.2', sha256='3903657788bff7d7743f8bb25c34ccf91c445e72a4710cb821c024107bd1b474')
-    version('3.12.1', sha256='d6c18f7c5bf486712b493167d27ec6e940ad376c5b903b97acc5a3ade1c0a3ef')
-    version('3.12.0', sha256='ed19e5e7174355e93c93c798b5056036e2fd2ec78cf0f3954876483f74fe618b')
+    version('3.13.3',  tag='releases/3.13.3')
+    version('3.13.2',  tag='releases/3.13.2')
+    version('3.13.1',  tag='releases/3.13.1')
+    version('3.13.0',  tag='releases/3.13.0')
+    version('3.12.13', tag='releases/3.12.13')
+    version('3.12.12', tag='releases/3.12.12')
+    version('3.12.11', tag='releases/3.12.11')
+    version('3.12.10', tag='releases/3.12.10')
+    version('3.12.9',  tag='releases/3.12.9')
+    version('3.12.8',  tag='releases/3.12.8')
+    version('3.12.7',  tag='releases/3.12.7')
+    version('3.12.6',  tag='releases/3.12.6')
+    version('3.12.5',  tag='releases/3.12.5')
+    version('3.12.4',  tag='releases/3.12.4')
+    version('3.12.3',  tag='releases/3.12.3')
+    version('3.12.2',  tag='releases/3.12.2')
+    version('3.12.1',  tag='releases/3.12.1')
+    version('3.12.0',  tag='releases/3.12.0')
 
     variant('coinhsl', default=False,
             description="Build with Coin Harwell Subroutine Libraries")

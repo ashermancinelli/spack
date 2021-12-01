@@ -6,7 +6,7 @@
 from spack import *
 
 
-class Exago(CMakePackage, CudaPackage):
+class Exago(CMakePackage, CudaPackage, ROCmPackage):
     """ExaGO is a package for solving large-scale power grid optimization
     problems on parallel and distributed architectures, particularly targeted
     for exascale machines."""
@@ -38,7 +38,11 @@ class Exago(CMakePackage, CudaPackage):
     depends_on('cuda', when='+cuda')
     depends_on('raja', when='+raja')
     depends_on('raja+cuda', when='+raja+cuda')
+    depends_on('raja+rocm', when='+raja+rocm')
     depends_on('umpire', when='+raja')
+    depends_on('hip', when='+rocm')
+    depends_on('hipblas', when='+rocm')
+    depends_on('hipsparse', when='+rocm')
 
     # Some allocator code in Umpire only works with static libs
     depends_on('umpire+cuda~shared', when='+raja+cuda')
@@ -54,6 +58,7 @@ class Exago(CMakePackage, CudaPackage):
     depends_on('hiop+raja', when='+hiop+raja')
     depends_on('hiop@0.3.99:', when='@0.99:+hiop')
     depends_on('hiop+cuda', when='+hiop+cuda')
+    depends_on('hiop+rocm', when='+hiop+rocm')
     depends_on('hiop~mpi', when='+hiop~mpi')
     depends_on('hiop+mpi', when='+hiop+mpi')
 
@@ -68,6 +73,9 @@ class Exago(CMakePackage, CudaPackage):
         args = []
         spec = self.spec
 
+        if spec.satisfies('+cuda') or spec.satisfies('+rocm'):
+            args.append('-DEXAGO_ENABLE_GPU=ON')
+
         args.append("-DEXAGO_RUN_TESTS=ON")
 
         args.append(self.define_from_variant('EXAGO_ENABLE_MPI', 'mpi'))
@@ -75,8 +83,8 @@ class Exago(CMakePackage, CudaPackage):
         args.append(self.define_from_variant('EXAGO_ENABLE_HIOP', 'hiop'))
         args.append(self.define_from_variant('EXAGO_ENABLE_PETSC', 'petsc'))
         args.append(self.define_from_variant('EXAGO_ENABLE_IPOPT', 'ipopt'))
-        args.append(self.define_from_variant('EXAGO_ENABLE_GPU', 'cuda'))
         args.append(self.define_from_variant('EXAGO_ENABLE_CUDA', 'cuda'))
+        args.append(self.define_from_variant('EXAGO_ENABLE_HIP', 'rocm'))
 
         if '+cuda' in spec:
             cuda_arch_list = spec.variants['cuda_arch'].value

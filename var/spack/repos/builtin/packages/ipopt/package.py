@@ -11,7 +11,6 @@ class Ipopt(AutotoolsPackage):
        software package for large-scale nonlinear optimization."""
 
     homepage = "https://github.com/coin-or/Ipopt"
-    # url      = "https://www.coin-or.org/download/source/Ipopt/Ipopt-3.13.2.tgz"
     url      = "https://github.com/coin-or/Ipopt/archive/releases/3.13.2.tar.gz"
 
     version('3.14.0',  sha256='9bed72a5456ef37f1b95746c932986e6664eb70b983d4fab61cf8aa811facdf1')
@@ -72,6 +71,8 @@ class Ipopt(AutotoolsPackage):
         blas_lib = spec['blas'].libs.ld_flags
         lapack_lib = spec['lapack'].libs.ld_flags
 
+        # After Ipopt v3.13, the buildsystem uses different flags to communicate
+        # build and link flags for dependencies.
         use_legacy_configure_flags = spec.satisfies('@:3.12.10')
 
         args = [

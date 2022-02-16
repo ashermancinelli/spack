@@ -11,8 +11,8 @@ class Ipopt(AutotoolsPackage):
        software package for large-scale nonlinear optimization."""
 
     homepage = "https://github.com/coin-or/Ipopt"
-    url      = "https://www.coin-or.org/download/source/Ipopt/Ipopt-3.13.2.tgz"
-    # Alternative: url      = "https://github.com/coin-or/Ipopt/archive/releases/3.13.2.tar.gz"
+    # url      = "https://www.coin-or.org/download/source/Ipopt/Ipopt-3.13.2.tgz"
+    url      = "https://github.com/coin-or/Ipopt/archive/releases/3.13.2.tar.gz"
 
     version('3.14.0',  sha256='9bed72a5456ef37f1b95746c932986e6664eb70b983d4fab61cf8aa811facdf1')
     version('3.13.4',  sha256='1fdd0f8ea637856d66b1ebdd7d52ad1b8b8c1142d1a4ce0976b200ab280e5683')
@@ -64,6 +64,7 @@ class Ipopt(AutotoolsPackage):
 
     def configure_args(self):
         spec = self.spec
+
         # Dependency directories
         blas_dir = spec['blas'].prefix
         lapack_dir = spec['lapack'].prefix
@@ -71,13 +72,15 @@ class Ipopt(AutotoolsPackage):
         blas_lib = spec['blas'].libs.ld_flags
         lapack_lib = spec['lapack'].libs.ld_flags
 
+        use_legacy_configure_flags = spec.satisfies('@:3.12.10')
+
         args = [
-            "--prefix=%s" % self.prefix,
+            "--prefix={0}".format(self.prefix),
             "--enable-shared",
             "coin_skip_warn_cxxflags=yes",
         ]
 
-        if spec.satisfies('@:3.12.10'):
+        if use_legacy_configure_flags:
             args.extend([
                 "--with-lapack-lib={0}".format(lapack_lib),
                 "--with-lapack-incdir={0}".format(lapack_dir.include),
@@ -86,6 +89,7 @@ class Ipopt(AutotoolsPackage):
             ])
         else:
             args.extend([
+                "--with-lapack",
                 "--with-lapack-lflags={0} {1}".format(lapack_lib, blas_lib),
             ])
 
@@ -94,20 +98,39 @@ class Ipopt(AutotoolsPackage):
             # install to header search path
             mumps_dir = spec['mumps'].prefix
             mumps_flags = "-ldmumps -lmumps_common -lpord -lmpiseq"
-            mumps_libcmd = "-L%s " % mumps_dir.lib + mumps_flags
-            args.extend([
-                "--with-mumps-incdir=%s" % mumps_dir.include,
-                "--with-mumps-lib=%s" % mumps_libcmd])
+            mumps_libcmd = "-L{0} {1}".format(mumps_dir.lib, mumps_flags)
+
+            if use_legacy_configure_flags:
+                args.extend([
+                    "--with-mumps-incdir={0}".format(mumps_dir.include),
+                    "--with-mumps-lib={0}".format(mumps_libcmd)])
+            else:
+                args.extend([
+                    "--with-mumps-cflags=-I{0}".format(mumps_dir.include),
+                    "--with-mumps-lflags={0}".format(mumps_libcmd)])
 
         if 'coinhsl' in spec:
-            args.extend([
-                '--with-hsl-lib=%s' % spec['coinhsl'].libs.ld_flags,
-                '--with-hsl-incdir=%s' % spec['coinhsl'].prefix.include])
+            if use_legacy_configure_flags:
+                args.extend([
+                    '--with-hsl-lib={0}'.format(spec['coinhsl'].libs.ld_flags),
+                    '--with-hsl-incdir={0}'.format(spec['coinhsl'].prefix.include)])
+            else:
+                coinhsl_lflags = spec['coinhsl'].libs.ld_flags
+                if spec.satisfies("^coinhsl+blas"):
+                    coinhsl_lflags = " ".join(spec[lib].libs.ld_flags for lib in ("blas", "lapack", "coinhsl"))
+                args.extend([
+                    '--with-hsl-lflags={0} -ldl'.format(coinhsl_lflags),
+                    '--with-hsl-cflags=-I{0}'.format(spec['coinhsl'].prefix.include)])
 
         if 'metis' in spec:
-            args.extend([
-                '--with-metis-lib=%s' % spec['metis'].libs.ld_flags,
-                '--with-metis-incdir=%s' % spec['metis'].prefix.include])
+            if use_legacy_configure_flags:
+                args.extend([
+                    '--with-metis-lib={0}'.format(spec['metis'].libs.ld_flags),
+                    '--with-metis-incdir={0}'.format(spec['metis'].prefix.include)])
+            else:
+                args.extend([
+                    '--with-metis-lflags={0}'.format(spec['metis'].libs.ld_flags),
+                    '--with-metis-cflags=-I{0}'.format(spec['metis'].prefix.include)])
 
         # The IPOPT configure file states that '--enable-debug' implies
         # '--disable-shared', but adding '--enable-shared' overrides

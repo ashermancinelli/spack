@@ -15,7 +15,8 @@ class Exago(CMakePackage, CudaPackage):
     git = 'https://gitlab.pnnl.gov/exasgd/frameworks/exago.git'
     maintainers = ['ashermancinelli', 'CameronRutherford']
 
-    version('1.3.0', commit='58b039d746a6eac8e84b0afc01354cd58caec485', submodules=True, preferred=True)
+    version('1.4.0', commit='58b039d746a6eac8e84b0afc01354cd58caec485', submodules=True, preferred=True)
+    version('1.3.0', commit='58b039d746a6eac8e84b0afc01354cd58caec485', submodules=True)
     version('1.2.0', commit='255a214e', submodules=True)
     version('1.1.2', commit='db3bb16e', submodules=True)
     version('1.1.1', commit='0e0a3f27', submodules=True)
@@ -23,7 +24,7 @@ class Exago(CMakePackage, CudaPackage):
     version('1.0.0', commit='230d7df2')
     version('0.99.2', commit='56961641')
     version('0.99.1', commit='0ae426c7')
-    version('master', branch='master')
+    version('master', branch='master', submodules=True)
     version('develop', branch='develop', submodules=True)
 
     # Progrmming model options
@@ -36,6 +37,10 @@ class Exago(CMakePackage, CudaPackage):
     variant('ipopt', default=False, description='Enable/Disable IPOPT')
 
     conflicts('~hiop~ipopt', msg="ExaGO needs at least one solver enabled")
+
+    depends_on("python@3.6.0:", when="+python")
+    depends_on("py-mpi4py", when="+python+mpi")
+    conflicts("+python", when="@:1.3.0")
 
     # Dependencides
     depends_on('mpi', when='+mpi')

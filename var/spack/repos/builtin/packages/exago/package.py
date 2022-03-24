@@ -15,7 +15,8 @@ class Exago(CMakePackage, CudaPackage, ROCmPackage):
     git = 'https://gitlab.pnnl.gov/exasgd/frameworks/exago.git'
     maintainers = ['ashermancinelli', 'CameronRutherford']
 
-    version('1.4.0', commit='5c63f6a2158039a6331ee47c29e7bfd82affed25', submodules=True, preferred=True)
+    version('1.4.1', commit='ea607c685444b5f345bfdc9a59c345f0f30adde2', submodules=True, preferred=True)
+    version('1.4.0', commit='4f4c3fdb40b52ace2d6ba000e7f24b340ec8e886', submodules=True)
     version('1.3.0', commit='58b039d746a6eac8e84b0afc01354cd58caec485', submodules=True)
     version('1.2.0', commit='255a214e', submodules=True)
     version('1.1.2', commit='db3bb16e', submodules=True)
@@ -90,7 +91,7 @@ class Exago(CMakePackage, CudaPackage, ROCmPackage):
         # change the ctest launch command to use your job scheduler like so:
         #
         # args.append(
-        #     self.define('HIOP_CTEST_LAUNCH_COMMAND', 'srun -t 10:00'))
+        #     self.define('EXAGO_CTEST_LAUNCH_COMMAND', 'srun -t 10:00'))
 
         args.extend([
                 self.define('EXAGO_ENABLE_GPU', '+cuda' in spec or '+rocm' in spec),

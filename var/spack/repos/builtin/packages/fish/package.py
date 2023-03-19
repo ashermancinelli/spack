@@ -19,6 +19,7 @@ class Fish(CMakePackage):
     maintainers("funnell")
 
     version("master", branch="master")
+    version("3.6.0", sha256="97044d57773ee7ca15634f693d917ed1c3dc0fa7fde1017f1626d60b83ea6181")
     version("3.5.1", sha256="a6d45b3dc5a45dd31772e7f8dfdfecabc063986e8f67d60bd7ca60cc81db6928")
     version("3.4.1", sha256="b6f23b3843b04db6b0a90fea1f6f0d0e40cc027b4a732098200863f2864a94ea")
     version("3.3.1", sha256="b5b4ee1a5269762cbbe993a4bd6507e675e4100ce9bbe84214a5eeb2b19fae89")
@@ -36,6 +37,7 @@ class Fish(CMakePackage):
     depends_on("py-sphinx", when="+docs", type="build")
     depends_on("python@3.3:", type="test")
     depends_on("py-pexpect", type="test")
+    depends_on("rust@nightly", when="@3.5.99:", type="build")
 
     # https://github.com/fish-shell/fish-shell/issues/7310
     patch("codesign.patch", when="@3.1.2 platform=darwin")

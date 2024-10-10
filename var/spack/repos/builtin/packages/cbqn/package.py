@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack.package import *
+from spack.version import Version
 
 
 class Cbqn(MakefilePackage):
@@ -25,6 +26,7 @@ class Cbqn(MakefilePackage):
 
     version("master", branch="master")
     version("develop", branch="develop")
+    version("0.8.0", tag="v0.8.0")
     version("0.7.0", tag="v0.7.0")
 
     depends_on("c", type="build")
@@ -53,7 +55,10 @@ class Cbqn(MakefilePackage):
         # The build types map directly to the make target
         make_args.append(spec.variants["build_type"].value)
 
-        if spec.version not in ("develop", "master"):
+        if spec.version >= Version("0.8.0") and spec.variants["build_type"].value != "o3n":
+            make_args.append("target_from_cc=1")
+
+        if str(spec.version) not in ("develop", "master"):
             make_args.append("version={0}".format(spec.version))
 
         make(*make_args)
